@@ -365,9 +365,15 @@ class ModController(Controller):
         # files, deactivate this mod and commit changes. This prevents a scenario where
         # the user could re-configure a fomod (thereby changing mod.location/Data),
         # and quit ammo without running 'commit', which could leave broken symlinks in their
-        # game.directoryectory.
+        # game.directory
+
+        try:
+            self.mods[index]
+        except IndexError as e:
+            raise Warning("No mod at that index.")
 
         mod = self.mods[index]
+        
         if not mod.fomod:
             raise Warning("Only fomods can be configured.")
 
